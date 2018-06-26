@@ -1,9 +1,3 @@
-// Daniel Shiffman
-// http://codingtra.in
-// http://patreon.com/codingtrain
-// Code for: https://youtu.be/VV1JmMYceJw
-
-
 var afinn;
 
 function preload() {
