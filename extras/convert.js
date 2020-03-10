@@ -19,8 +19,6 @@ function setup() {
   console.log(afinn);
   save(afinn, 'afinn111.json');
 
-
-
 }
 
 function draw() {

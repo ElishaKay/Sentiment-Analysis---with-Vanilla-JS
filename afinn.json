@@ -1,4 +1,21 @@
 {
+  "drop": "-5",
+  "dropping": "-10",
+
+
+  "fall": "-5",
+  "falling": "-10",
+
+
+  "fell": "5",
+  "fallen": "10",
+  "dropped": "8",
+  
+
+  "lowest": "10",
+  "highest": "-10",
+
+
   "abandon": "-2",
   "abandoned": "-2",
   "abandons": "-2",
@@ -787,7 +804,7 @@
   "dreams": "1",
   "dreary": "-2",
   "droopy": "-2",
-  "drop": "-1",
+ 
   "drown": "-2",
   "drowned": "-2",
   "drowns": "-2",
@@ -946,8 +963,6 @@
   "fake": "-3",
   "fakes": "-3",
   "faking": "-3",
-  "fallen": "-2",
-  "falling": "-1",
   "falsified": "-3",
   "falsify": "-3",
   "fame": "1",
@@ -1474,7 +1489,7 @@
   "lovelies": "3",
   "lovely": "3",
   "loving": "2",
-  "lowest": "-1",
+  
   "loyal": "3",
   "loyalty": "3",
   "luck": "3",
