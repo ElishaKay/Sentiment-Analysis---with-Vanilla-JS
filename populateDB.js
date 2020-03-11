@@ -19,10 +19,11 @@ for (let i = 0; i < words.length; i++) {
   if(words[i]){
       let word = words[i];
       // get afinn sentiment of given word
-      if (afinn.hasOwnProperty(word.toLowerCase())) {
-        var score = afinn[word];
+      let lowerCaseWord = word.toLowerCase();
+      if (afinn.hasOwnProperty(lowerCaseWord)) {
+        var score = afinn[lowerCaseWord];
         totalScore += Number(score);
-        scoredWords.push(word + ': ' + score + ' ');
+        scoredWords.push(lowerCaseWord + ': ' + score + ' ');
       }
       // compare similarity of word to company names
       let companiesObj = {};
@@ -43,7 +44,7 @@ for (let i = 0; i < words.length; i++) {
   }
 }
 
-// console.log('totalScore: ', totalScore);
+console.log('totalScore: ', totalScore);
 // console.log('scoredWords: ',scoredWords);
 // console.log('companiesObj: ',companiesObj);
 
