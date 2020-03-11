@@ -12,6 +12,7 @@ let words = blogpost['text'].split(/\W/);
 
 let scoredWords = [];
 let totalScore = 0;
+
 for (let i = 0; i < words.length; i++) {
   if(words[i]){
       let word = words[i];
@@ -26,8 +27,10 @@ for (let i = 0; i < words.length; i++) {
       let companiesObj = {};
       for (let x = 0; x < companies.length; x++) {
         let companyName = companies[x].Name;
-        if(companyName && word.charAt(0) == word.charAt(0).toUpperCase() 
-          && negativeKeywordList.indexOf(word) == -1){
+        if(companyName && 
+            //verify that the Company Name found in the article is Capitalized
+            word.charAt(0) == word.charAt(0).toUpperCase() 
+            && negativeKeywordList.indexOf(word) == -1){
           let similarity = natural.DiceCoefficient(companies[x].Name, word);
           if(similarity>0.5){
             console.log(similarity);
