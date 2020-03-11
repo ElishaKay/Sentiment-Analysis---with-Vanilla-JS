@@ -17,9 +17,9 @@ let scoredWords = [];
 let totalScore = 0;
 for (let i = 0; i < words.length; i++) {
   if(words[i]){
-      let word = words[i].toLowerCase();
+      let word = words[i];
       // get afinn sentiment of given word
-      if (afinn.hasOwnProperty(word)) {
+      if (afinn.hasOwnProperty(word.toLowerCase())) {
         var score = afinn[word];
         totalScore += Number(score);
         scoredWords.push(word + ': ' + score + ' ');
@@ -27,9 +27,15 @@ for (let i = 0; i < words.length; i++) {
       // compare similarity of word to company names
       let companiesObj = {};
       for (let x = 0; x < companies.length; x++) {
-        if(companies[x].Name){
+        let companyName = companies[x].Name;
+        if(companyName && word.charAt(0) == word.charAt(0).toUpperCase()
+           ){
           let similarity = natural.DiceCoefficient(companies[x].Name, word);
-          console.log(similarity);  
+          if(similarity>0.5){
+            console.log(similarity);
+            console.log(companies[x].Name);
+            console.log(word);
+          }  
         }
         
         // companiesObj[companies[i].Name] = companies[i].Symbol;
