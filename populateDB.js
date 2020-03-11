@@ -5,12 +5,9 @@ let afinn = JSON.parse(fs.readFileSync('afinn.json'));
 let companies = JSON.parse(fs.readFileSync('companies.json'));
 let blogpost = JSON.parse(fs.readFileSync('blogpost.json'));
 
-// console.log('afinn: ',afinn);
-// console.log('companies: ',companies);
-// console.log('blogpost: ',blogpost);
-let companiesObj = {};
+let negativeKeywordList = ['Financial', 'President', 'Wealth', 'Management'];
 
-//split by any non-word element
+//js regex: split by anything that's not a letter or a number
 let words = blogpost['text'].split(/\W/);
 
 let scoredWords = [];
@@ -29,8 +26,8 @@ for (let i = 0; i < words.length; i++) {
       let companiesObj = {};
       for (let x = 0; x < companies.length; x++) {
         let companyName = companies[x].Name;
-        if(companyName && word.charAt(0) == word.charAt(0).toUpperCase()
-           ){
+        if(companyName && word.charAt(0) == word.charAt(0).toUpperCase() 
+          && negativeKeywordList.indexOf(word) == -1){
           let similarity = natural.DiceCoefficient(companies[x].Name, word);
           if(similarity>0.5){
             console.log(similarity);
@@ -38,14 +35,11 @@ for (let i = 0; i < words.length; i++) {
             console.log(word);
           }  
         }
-        
-        // companiesObj[companies[i].Name] = companies[i].Symbol;
       }
   }
 }
 
 console.log('totalScore: ', totalScore);
 // console.log('scoredWords: ',scoredWords);
-// console.log('companiesObj: ',companiesObj);
 
 

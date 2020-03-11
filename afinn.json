@@ -15,9 +15,8 @@
   "fallen": "10",
   "dropped": "8",
   
-
-  "lowest": "10",
-  "highest": "-10",
+  "lowest": "5",
+  "highest": "-5",
 
 
   "abandon": "-2",
