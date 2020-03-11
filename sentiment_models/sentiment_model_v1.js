@@ -1,9 +1,9 @@
 const fs = require('fs');
 const natural = require('natural');
 
-let afinn = JSON.parse(fs.readFileSync('afinn.json'));
-let companies = JSON.parse(fs.readFileSync('companies.json'));
-let blogpost = JSON.parse(fs.readFileSync('blogpost.json'));
+let afinn = JSON.parse(fs.readFileSync('../the_data/afinn.json'));
+let companies = JSON.parse(fs.readFileSync('../the_data/companies.json'));
+let blogpost = JSON.parse(fs.readFileSync('../the_data/blogpost.json'));
 
 let negativeKeywordList = ['Financial', 'President', 'Wealth', 'Management'];
 

@@ -11,12 +11,14 @@
   "falling": "-10",
 
 
-  "fell": "5",
-  "fallen": "10",
-  "dropped": "8",
-  
-  "lowest": "5",
-  "highest": "-5",
+  "fell": "-5",
+  "fallen": "-10",
+  "dropped": "-8",
+  "lowest": "-5",
+
+
+  "highest": "5",
+  "soared": "5",
 
 
   "abandon": "-2",
