@@ -11,6 +11,7 @@ let negativeKeywordList = ['Financial', 'President', 'Wealth', 'Management'];
 let words = blogpost['text'].split(/\W/);
 
 let scoredWords = [];
+let companiesFound = [];
 let totalScore = 0;
 
 for (let i = 0; i < words.length; i++) {
@@ -33,6 +34,7 @@ for (let i = 0; i < words.length; i++) {
             && negativeKeywordList.indexOf(word) == -1){
           let similarity = natural.DiceCoefficient(companies[x].Name, word);
           if(similarity>0.5){
+            companiesFound.push(companies[x])
             console.log(similarity);
             console.log(companies[x].Name);
             console.log(word);
@@ -43,6 +45,7 @@ for (let i = 0; i < words.length; i++) {
 }
 
 console.log('totalScore: ', totalScore);
+console.log('companiesFound: ', companiesFound);
 // console.log('scoredWords: ',scoredWords);
 
 
