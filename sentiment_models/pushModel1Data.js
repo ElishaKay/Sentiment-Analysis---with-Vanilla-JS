@@ -1,6 +1,11 @@
 const fs = require('fs');
 const natural = require('natural');
 const recursive = require("recursive-readdir");
+const mysql = require('mysql');
+let dbconfig = require('../config/database');
+let connection = mysql.createConnection(dbconfig.connection);
+let handleDisconnect = require('../sql/handleDisconnect');
+
 let afinn = JSON.parse(fs.readFileSync('../the_data/afinn.json'));
 let companies = JSON.parse(fs.readFileSync('../the_data/companies.json'));
 
@@ -20,7 +25,7 @@ recursive("../the_data/blogposts", [".git*", "node_modules/*", ], function (err,
           let scoredWords = [];
           let companiesFound = [];
           let totalScore = 0;
-          let {uuid, published, text} = JSON.parse(data);
+          let {uuid, published, title, text} = JSON.parse(data);
           let words = text.split(/\W/);
                     
           for (let i = 0; i < words.length; i++) {
@@ -47,6 +52,7 @@ recursive("../the_data/blogposts", [".git*", "node_modules/*", ], function (err,
                       console.log(similarity);
                       console.log(companies[x].Name);
                       console.log(word);
+
                     }  
                   }
                 }
@@ -55,7 +61,70 @@ recursive("../the_data/blogposts", [".git*", "node_modules/*", ], function (err,
 
           console.log('totalScore: ', totalScore);
           console.log('companiesFound: ', companiesFound);
-           
+
+              let insertArticle = 
+                `INSERT INTO article (article_uuid, article_title, article_creation_date)
+                    VALUES ('${uuid}', 
+                              '${title}', 
+                              '${published}')`;
+
+              // console.log('insertArticle: ',insertArticle);
+
+              let insertArticleSentiment = 
+                `INSERT INTO article_sentiment (article_uuid, afinn_score, sentiment_model_id)
+                    VALUES ('${uuid}', 
+                              ${totalScore}, 
+                              1)`;
+
+              
+
+              connection.query(insertArticle, function (err, result, fields) {
+                if (err){
+                  handleDisconnect();
+                  console.log('err: ',err);
+                }
+                  if(!result){
+                    console.log('no result');
+                  } else {
+                    console.log('result: ',result);
+                  }
+              });
+
+              connection.query(insertArticleSentiment, function (err, result, fields) {
+                if (err){
+                  handleDisconnect();
+                  console.log('err: ',err);
+                }
+                  if(!result){
+                    console.log('no result');
+                  } else {
+                    console.log('result: ',result);
+                  }
+              });
+
+              for (let y = 0; y < companiesFound.length; y++) {
+                  let insertCompanySentiment = 
+                    `INSERT INTO company_sentiment (company_id, article_uuid, afinn_score, sentiment_model_id)
+                        VALUES ((SELECT company_id FROM company WHERE company_name LIKE '%${companiesFound[y].Name}%'),
+                                  '${uuid}', 
+                                  ${totalScore}, 
+                                  1)`;
+
+                  connection.query(insertCompanySentiment, function (err, result, fields) {
+                    if (err){
+                      handleDisconnect();
+                      console.log('err: ',err);
+                    }
+                      if(!result){
+                        console.log('no result');
+                      } else {
+                        console.log('result: ',result);
+                      }
+                  });  
+              }
+              
+              
+
         }
       });
     }

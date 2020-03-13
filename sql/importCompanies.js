@@ -2,7 +2,7 @@ let mysql = require('mysql');
 let dotenv = require('dotenv').config();
 const fs = require('fs');
 let dbconfig = require('../config/database');
-let handleDisconnect = require('./handleDisconnect');;
+let handleDisconnect = require('./handleDisconnect');
 let companies = JSON.parse(fs.readFileSync('../the_data/companies.json'));
 let connection = mysql.createConnection(dbconfig.connection);
 
