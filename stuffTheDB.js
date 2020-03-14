@@ -1,3 +1,4 @@
+var dotenv = require('dotenv').config();
 const request = require("request");
 const fs = require('fs');
 const mysql = require('mysql');

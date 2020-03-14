@@ -11,14 +11,20 @@ create table article (
     article_id int(11) NOT NULL Auto_increment primary key,
     article_uuid varchar(50) NOT NULL,
     article_title varchar(50) DEFAULT NULL,
-    article_creation_date timestamp NULL DEFAULT NULL
+    article_published_date timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table article_sentiment (
-    article_sentiment_id int Auto_increment primary key,
+create table article_keyword (
+    article_keyword_id int Auto_increment primary key,
     article_uuid varchar(50) NOT NULL,
-    afinn_score int(11),
-    sentiment_model_id int(11)
+    keyword varchar(50) NOT NULL,
+    afinn_keyword_id int(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table afinn_keyword (
+    afinn_keyword_id int Auto_increment primary key,
+    keyword varchar(50) NOT NULL,
+    sentiment_score int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table company_sentiment (
