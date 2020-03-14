@@ -60,11 +60,11 @@ recursive("../../batch_1/a", [".git*", "node_modules/*", ], function (err, files
 
           insertArticle(uuid, title, published);
 
-          if(scoredWords){
+          if(scoredWords.length != 0){
               insertArticleKeywords(scoredWords, uuid);             
           }
 
-          if(companiesFound){
+          if(companiesFound.length != 0){
               insertCompanyMentions(companiesFound, uuid); 
           }
 
@@ -81,7 +81,7 @@ let insertArticle = (uuid, title, published) => {
   let insertArticleQuery = 
     `INSERT INTO article (article_uuid, article_title, article_published_date, created_at, updated_at)
         VALUES ('${uuid}', 
-                  '${title}', 
+                  '${formatQuotes(title)}', 
                   '${published}',
                     NOW(),
                     NOW())`;
@@ -127,6 +127,15 @@ let wait = (ms) => {
     while(end < start + ms) {
     end = new Date().getTime();
     }
+}
+
+let formatQuotes = (str)=>{
+  var reg = /"/g;
+  var newstr = '\\"';
+  str = str.replace(reg,newstr);
+
+  var reg2 = /'/g;
+  return  str.replace(reg2,newstr);
 }
 
 handleDisconnect();
