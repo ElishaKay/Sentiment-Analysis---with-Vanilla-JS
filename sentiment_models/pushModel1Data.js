@@ -29,7 +29,8 @@ recursive("../../batch_1/a", [".git*", "node_modules/*", ], function (err, files
           let totalScore = 0;
           let {uuid, published, title, text} = JSON.parse(data);
           let words = text.split(/\W/);
-                    
+          
+          //search for sentimental_words + company_names       
           for (let i = 0; i < words.length; i++) {
             if(words[i]){
                 let word = words[i];
@@ -51,28 +52,20 @@ recursive("../../batch_1/a", [".git*", "node_modules/*", ], function (err, files
                     let similarity = natural.DiceCoefficient(companies[x].Name, word);
                     if(similarity>0.5){
                       companiesFound.push(companies[x])
-                      console.log(similarity);
-                      console.log(companies[x].Name);
-                      console.log(word);
-
                     }  
                   }
                 }
             }
           }
 
-          console.log('totalScore: ', totalScore);
-          console.log('companiesFound: ', companiesFound);
-
           insertArticle(uuid, title, published);
 
-          for (let y = 0; y < scoredWords.length; y++) {
-              console.log('scoredWords',scoredWords);       
-              insertArticleKeyword(scoredWords[y], uuid);                 
+          if(scoredWords){
+              insertArticleKeywords(scoredWords, uuid);             
           }
 
-          for (let z = 0; z < companiesFound.length; z++) {
-              insertCompanyMention(companiesFound[z].Symbol, uuid);                  
+          if(companiesFound){
+              insertCompanyMentions(companiesFound, uuid); 
           }
 
           wait(300);
@@ -96,26 +89,36 @@ let insertArticle = (uuid, title, published) => {
   executeSQL(insertArticleQuery);
 }
 
-let insertCompanyMention = (companySymbol, uuid) => { 
-  let insertCompanyMentionQuery = 
-    `INSERT INTO company_mention (company_id, article_uuid, created_at, updated_at)
-        VALUES ((SELECT company_id FROM company WHERE company_symbol LIKE '%${companySymbol}%'),
+
+let insertCompanyMentions = (companiesFound, uuid) => {
+
+  let insertCompanyMentionsQuery = 
+    `INSERT INTO company_mention (company_symbol, article_uuid, created_at, updated_at)
+        VALUES`;
+
+  for (let z = 0; z < companiesFound.length; z++) {
+         insertCompanyMentionsQuery+= `${z===0 ? '' : ','}('${companiesFound[z].Symbol}',
                   '${uuid}',
                     NOW(),
-                    NOW())`;
+                    NOW())`
+  }
 
-  executeSQL(insertCompanyMentionQuery);
+  executeSQL(insertCompanyMentionsQuery);
 }
 
-let insertArticleKeyword = (keyword, uuid) => { 
-  let insertArticleKeywordQuery =     
+let insertArticleKeywords = (scoredWords, uuid) => { 
+  let insertArticleKeywordsQuery =     
     `INSERT INTO article_keyword (article_uuid, keyword, created_at, updated_at)
-        VALUES ('${uuid}', 
-                  '${keyword}',
-                    NOW(),
-                    NOW())`;
+        VALUES`
 
-  executeSQL(insertArticleKeywordQuery);
+  for (let y = 0; y < scoredWords.length; y++) {       
+      insertArticleKeywordsQuery += `${y===0 ? '' : ','} ('${uuid}', 
+          '${scoredWords[y]}',
+            NOW(),
+            NOW())`;              
+  }
+
+  executeSQL(insertArticleKeywordsQuery);
 }
 
 let wait = (ms) => {
