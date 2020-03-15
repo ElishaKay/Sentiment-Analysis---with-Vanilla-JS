@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`article_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `article_keyword` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`article_keyword_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2597 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
@@ -66,15 +66,15 @@ CREATE TABLE IF NOT EXISTS `company` (
 
 -- Dumping structure for table n89c1je0h9e3s4ip.company_mention
 CREATE TABLE IF NOT EXISTS `company_mention` (
-  `company_sentiment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_mention_id` int(11) NOT NULL AUTO_INCREMENT,
   `company_id` int(11) DEFAULT NULL,
   `article_uuid` varchar(50) NOT NULL,
-  `company_symbol` VARCHAR(10) DEFAULT NULL,
+  `company_symbol` varchar(10) DEFAULT NULL,
   `sentiment_model_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`company_sentiment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`company_mention_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2342 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 

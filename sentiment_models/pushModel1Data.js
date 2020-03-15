@@ -14,13 +14,24 @@ let companies = JSON.parse(fs.readFileSync('../the_data/companies.json'));
 let negativeKeywordList = ['Financial', 'President', 'Wealth', 'Management'];
 
 //grab files recursively
-recursive("../../batch_1/a", [".git*", "node_modules/*", ], function (err, files) {
+recursive("../../batch_1/c", [".git*", "node_modules/*", ], function (err, files) {
     let promises=[];
     if (err) {
       console.log(err);
     } else {
     for (let i = 0; i < files.length; i++) {
-      fs.readFile(files[i], function (err, data) {
+      setTimeout(function(){ 
+        analyzeArticle(files[i]);
+      }, 
+      3000);
+
+      
+    }
+  }
+});
+
+let analyzeArticle = (file) => {
+  fs.readFile(file, function (err, data) {
         if (err)
           throw err;
         if (data){         
@@ -69,12 +80,11 @@ recursive("../../batch_1/a", [".git*", "node_modules/*", ], function (err, files
           }
 
           wait(300);
+          
               
         }
       });
-    }
-  }
-});
+}
 
 let insertArticle = (uuid, title, published) => {
 
